@@ -2,7 +2,7 @@ title: Lesson Template
 email: https://www.dataone.org/contact
 description: > # this means to ignore newlines until "baseurl:"
   This is a template for building lessons from Markdown input.
-baseurl: "/" # the subpath of your site, e.g. /blog
+#baseurl: "/" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: DataONEorg
 github_username:  DataONEorg

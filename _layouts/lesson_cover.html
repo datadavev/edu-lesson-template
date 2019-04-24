@@ -1,0 +1,142 @@
+---
+layout: layout
+---
+<!doctype html>
+<html lang="en">
+
+{%- comment %}
+This section sets the "slides" variable to the slides page and gathers
+other variables for use on the page
+{%- endcomment %}
+{%- assign lesson_id = page.id | split: "/" | slice: 2 | first %}
+{%- assign slides_id = page.id | split: "/" | slice: 0,3 | join: "/" | append: "/slides" %}
+{%- assign slides = site[ page.collection ] | where: 'id', slides_id | first %}
+{%- comment %} +++++++++++ DEBUG {%- endcomment %}
+{%- if site.show_debug == 1 %}
+<pre>
+Lesson: {{ lesson_id }}
+ID: {{ slides.id }}
+</pre>
+{%- endif %}
+{%- comment %} ----------- DEBUG {%- endcomment %}
+
+<head>
+  <meta charset="utf-8">
+  <title>{{ slides.title }}</title>
+
+{% assign catclasses = "" %}
+{% for cat in page.categories %}
+  {% assign cleancat = cat | downcase | replace: ' ', '_' %}
+  {% assign catclasses = catclasses | append: ' ' | append: cleancat %}
+{% endfor %}
+</head>
+
+<body>
+  <div style="background:#ebdadc;border:1px solid #ebdadc;padding:2px 60px;">
+  <p style = "margin-top: 2px; margin-bottom: 0px;"><span style="color:#660033;"><strong>TEACHING MODULE</strong></span></p>
+  </div>
+
+<main role='main'>
+  <div style="width:90%; padding:0px; margin:0px 0px 0px 32px; ">
+    <article class='container'>
+      <section role='complimentary' class='keep-together'>
+        <div class=border1><a href='slides.html'><img src="index.png" style="max-width: 100%; max-height:203px" class="mainimage" /></a></div>
+
+        <div style="float:left; width:550px;">
+        <div style="float:left; width:440px; margin:0px; font-size:180%;"><a href='slides.html'><img src="/resources/images/presentation.png" width=30 style="padding-right:8px;">  Presentation View</a></div>
+        <div style="float:left; width:440px; margin:0px; font-size:80%;"><p><em>Quick tips: Press p for presentation; f for full screen</em></p></div>
+        <div style="float:left; width:440px; margin:0px; font-size:120%;"><p></p></div>
+        <div style="float:left; width:440px; margin:0px; font-size:100%;"><p><strong>Supporting downloads:</strong></p></div>
+    		  <div style="float:left; width:220px; margin:5px; "><a href='{{ lesson_id }}.pdf' target='_blank'><img src="/resources/images/pdf.png" width=30  style="padding-right:8px;">  PDF Download</a></div>
+    		  {% if page.ppt %}
+    		  	<div style="float:left; width:220px; margin:5px; "><a href='https://www.dataone.org/sites/all/documents/education-modules/pptx/{{page.ppt}}'><img src="{{ site.baseurl }}/resources/images/doc_ppt.png" width=30  style="padding-right:8px;">  PPT Download</a></div>
+    		  {% endif %}
+    		  {% if page.handout %}
+    			  <div style="float:left; width:220px; margin:5px; position: relative; "><a href='{{page.handout}}' target='_blank'><img src="/resources/images/handout.png" width=30  style="padding-right:8px;">  Handout</a></div>
+    		  {% endif %}
+    		  {% if page.exercise %}
+    			  <div style="float:left; width:220px; margin:5px; "><a href='{{page.exercise}}' target='_blank'><img src="/resources/images/doc.png" width=30  style="padding-right:8px;">  Hands-on Exercise</a></div>
+    		  {% endif %}
+          {% if page.datafiles %}
+            <div style="float:left; width:220px; margin:5px; "><a href='{{page.datafiles}}'><img src="/resources/images/data.png" width=30  style="padding-right:8px;">  Supporting Data Files</a></div>
+          {% endif %}
+    		</div>
+    		<br clear=all>
+      </section>
+
+      <section>
+          {{ page.content | markdownify }}
+      </section>
+
+  		<section>
+        <br />
+        <!-- The lesson.* properties come from the slides.md front matter.  The page.* properties come from the index.md front matter -->
+  			<strong>Cite this lesson: </strong><br />
+          {%- for author in slides.author %}
+            {{ author }}
+            {%- if forloop.last == false %}, {%- endif %}
+          {%- endfor -%}
+          {% if slides.organization %}
+          , {{ page.organization }}
+          {% endif %}
+          ({{ page.update | date: '%Y' }}) "{{ slides.title }}". Accessed through the Data Management Skillbuilding Hub at https://dataoneorg.github.io{{site.baseurl}}{{ page.url }} on {{ site.time | date: '%b %d, %Y' }}
+        </p>
+        <!-- Adds the logo of the organization that added this material -->
+        		  {% if page.organization %}
+              <a href="{{ page.org_url }}" target="_blank"><img class=pagelogo alt='{{ page.organization }}' src="/resources/images/{{ page.org_logo }}" style='height:30px'/></a>
+              {% endif %}
+        <br />
+
+  		</section>
+  <br />
+      <a href="/lessons/{{ page.prevlesson }}"><img src="/resources/images/arrow_left3.png" style="margin-right:10px; max-height:20px"></a>
+      <a href="/"><strong>Home</strong></a>
+      <a href="/lessons/{{ page.nextlesson }}"><img src="/resources/images/arrow_right3.png" style="margin-left:10px; max-height:20px;"></a>
+    </article>
+
+<!-- this should be the full url to the site for the citation (instead of hand typing the dataoneorg.io), but when pushed through site.url is just blank... {{site.url}}{{site.baseurl}}{{ page.url }} -->
+
+  <footer>
+
+    <div>
+      <br />
+      Version date: {{ page.update | date: '%b %d, %Y' }}<br>
+        <!-- Build revision: <a href='{{ site.github.repository_url}}/commit/{{ site.github.build_revision }}'>{{ site.github.build_revision }}</a> -->
+    </div>
+  </footer>
+  </div>
+</main>
+
+{%- comment %} +++++++++++ DEBUG
+This section is for debugging purposes. It doesn't do anything unless show_debug in _config.yml is set to 1.
+{%- endcomment %}
+{%- if site.show_debug == 1 %}
+<pre>
+Page Keys and truncated values:
+{%- assign keys = page.keys | sort %}
+{%- for akey in keys %}
+{{ akey | append: "             " | slice: 0,15 }} : {{ page[akey] | slice: 0,100 | strip_html | strip_newlines | escape}}
+{%- endfor %}
+
+Slides Keys and truncated values:
+{%- assign keys = slides.keys | sort %}
+{%- for akey in keys %}
+{{ akey | append: "             " | slice: 0,15 }} : {{ slides[akey] | slice: 0,100 | strip_html | strip_newlines | escape}}
+{%- endfor %}
+
+{%- if site.show_site_debug == 1 %}
+Site Keys and truncated values:
+{%- assign keys = site.keys | sort %}
+{%- for akey in keys %}
+{%- if akey != "documents" %}
+  {%- assign kv = site[akey] | jsonify %}
+{{ akey | append: "             " | slice: 0,15 }} : {{ kv | slice: 0,100 }}
+{%- endif %}
+{%- endfor %}
+{%- endif %}
+<pre>
+{%- endif %}
+{%- comment %} -------------- DEBUG {%- endcomment %}
+
+</body>
+</html>

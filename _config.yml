@@ -1,0 +1,54 @@
+title: Lesson Template
+email: https://www.dataone.org/contact
+description: > # this means to ignore newlines until "baseurl:"
+  This is a template for building lessons from Markdown input.
+baseurl: "/" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: DataONEorg
+github_username:  DataONEorg
+analytics_code: "SET_ME"
+show_content_type_filter: 1   #Set this to 1 to show the "Filter by content type" option on the home page.
+show_debug: 0
+life_cycle_steps: ["plan","collect","assure","describe","preserve","discover","integrate","analyze"]
+
+exclude:
+  - "Gemfile"
+  - "Gemfile.lock"
+  - "node_modules"
+  - "_config.yml"
+  - "LICENSE"
+  - "Makefile"
+  - "README.md"
+  - "remark2pdf"
+
+# Format for the slides, can be either 16:9 or 4:3
+format: '4:3'
+
+# Collections
+collections:
+  lessons:
+    output: true
+    output_ext: .html
+    permalink: /:collection/:path
+  bestpractices:
+    output: true
+    output_ext: .html
+    permalink: :path
+  videos:
+    output: true
+    output_ext: .html
+    permalink: :path
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "lessons"
+    values:
+      layout: "slides"

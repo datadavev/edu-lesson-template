@@ -52,7 +52,7 @@
 {%- comment -%}Filter the collection by the current category {%- endcomment -%}
 {%- assign items = site[ the_collection ] | where: "categories", cat -%}
 {%- for item in items %}
-  <li><a href="{{ item.url }}">{{ item.url }}</a></li>{% endfor %}
+  <li><a href="{{ item.url | relative_url }}">{{ item.url | relative_url }}</a></li>{% endfor %}
 </ul>
 {% endfor %}
 
